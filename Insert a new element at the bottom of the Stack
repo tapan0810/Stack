@@ -1,0 +1,49 @@
+//Insert at the bottom of the Stack
+#include<iostream>
+#include<stack>
+#include<vector>
+using namespace std;
+
+void InsertAtTheBottom(stack<int> &s,int value){
+    //Base case
+    if(s.empty()){
+        s.push(value);
+        return;
+    }
+    
+    int topEle = s.top();
+    s.pop();
+    InsertAtTheBottom(s,value);
+    
+    //Backtrack:Insert back other value after the required value at bottom
+    
+    s.push(topEle);
+}
+
+auto PrintStack(stack<int> &s){
+    vector<int> arr;
+    
+    while(!s.empty()){
+        int val = s.top();
+        arr.push_back(val);
+        s.pop();
+    }
+    
+    return arr;
+}
+
+int main(){
+    stack<int> s;
+    
+    s.push(10);
+    s.push(20);
+    s.push(30);
+    
+    InsertAtTheBottom(s,5);
+    
+    cout<<" The stack"<<endl;
+    auto ans = PrintStack(s);
+    for(auto it : ans){
+        cout<<it<<" ";
+    }
+}
