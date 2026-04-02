@@ -1,0 +1,41 @@
+// Check for Valid Parenthesis
+#include<iostream>
+#include<stack>
+#include<string>
+
+using namespace std;
+
+bool isValidParenthesis(string s){
+    stack<char> st;
+    for (int i =0;i<s.length();i++){
+        char ch = s[i];
+        
+        if(ch =='{' || ch == '[' || ch == '('){
+            st.push(ch);
+        }
+        else{
+            if(ch == ')' && st.top() != '('){
+                return false;
+            }
+            else if(ch == ')' && st.top() != '('){
+                return false;
+            }
+            else if(ch == ')' && st.top() != '('){
+                return false;
+            }
+            else{
+                st.pop();
+            }
+        }
+    }
+    
+    return st.empty();
+    
+}
+
+int main(){
+    string s = "{{]}}";
+    
+    cout<< isValidParenthesis(s);
+    
+}
