@@ -1,0 +1,53 @@
+Problem :
+Given a string consisting solely of curly braces { and }, your task is to convert this string into a balanced sequence with the least number of reversals. A sequence is defined as balanced when every opening brace { corresponds to a closing brace }.
+
+Your goal is to determine the minimum number of reversals required to achieve a balanced sequence. Reversing means you can change an opening brace { to a closing brace } or vice versa. If it's impossible to balance the string, return -1.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+class Solution {
+public:
+    int countReversals(string str) {
+        stack<char> st;
+
+        //If the count of the string is odd then it cant be possible
+
+        if(str.length() %2 != 0)
+        return -1;
+
+        int openCount = 0;
+        int closeCount = 0;
+
+        for(auto ch : str){
+            if(ch == '}'){
+                if(!st.empty() && st.top() == '{'){
+                    st.pop();
+                    
+                }
+                else{
+                    st.push(ch);
+                    
+                }
+            }
+
+            if(ch == '{'){
+                st.push(ch);
+                
+            }
+        }
+
+        while(!st.empty()){
+            char ch = st.top();
+            if(ch == '{')
+            openCount++;
+            else
+            closeCount++;
+
+            st.pop();
+
+        }
+
+        int o = (openCount+1)/2;
+        int c = (closeCount+1)/2;
+
+        return o+c;
+    }
+};
