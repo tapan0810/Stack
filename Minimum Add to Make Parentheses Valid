@@ -1,0 +1,36 @@
+Problem Description
+--------------------------------------------------------------------------------------------------------------------------------------
+Given a string s consisting solely of the characters '(' and ')', your task is to determine the minimum number of parentheses (either '(' or ')') that need to be added to make the string valid. A valid string fulfills the following criteria:
+
+It can be an empty string.
+It can be expressed as AB where both A and B are valid strings.
+It can be expressed as (A), where A is a valid string.
+You are allowed to insert a parenthesis at any position in the string. For example, if s = ")))"), by inserting an opening parenthesis, it becomes "(())", or by inserting a closing parenthesis, it becomes "()))()".
+
+---------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------
+
+#include<stack>
+class Solution {
+public:
+    int minAddToMakeValid(string s) {
+        stack <char> st;
+
+        for(auto ch : s){
+            if(ch == ')'){
+                if(!st.empty() && st.top() == '('){
+                    st.pop();
+                }else if(st.empty()){
+                    st.push(ch);
+                }else if(st.top() == ')'){
+                    st.push(ch);
+                }
+            }
+            if(ch == '('){
+                st.push(ch);
+            }
+        }
+
+        return st.size();
+    }
+};
