@@ -1,0 +1,63 @@
+Probelm :
+You are given an encoded string that needs to be decoded following a specific set of rules. The encoded pattern is formatted as k[encoded_string], where k signifies the number of times the encoded_string should be repeated. This means the value within the square brackets should be repeated k times to decode it. The encoded string is guaranteed to be a valid format, with no extra spaces, and properly balanced square brackets. Additionally, any numbers in the string refer directly to the repetition count.
+
+Example:
+Consider the input string '3[a2[c]]'.
+
+Start with the innermost brackets 2[c]. Here c is repeated twice to become cc.
+Replace 2[c] with cc, resulting in the string '3[acc]'.
+Decode the remaining pattern, repeating acc three times to yield accaccacc.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+class Solution {
+public:
+    string decodeString(string s) {
+       stack<string> st;
+
+       for(auto ch : s){
+        if(ch == ']'){
+            string toRepeat = "";
+            while(!st.empty() && st.top() != "["){
+                string top = st.top();
+                toRepeat += top;
+                st.pop();
+            }
+            //to pop ']' so that we can get the numeric digits
+            st.pop();
+            string numericDigit ="";
+            while(!st.empty() && isdigit(st.top()[0])){
+                numericDigit +=st.top();
+                st.pop();
+            }
+
+            //reverse to get the actual number
+            reverse(numericDigit.begin(),numericDigit.end());
+            //convert string to int to get the number
+            int n = stoi(numericDigit);
+
+            string currDecode = "";
+            while(n -- ){
+               currDecode += toRepeat;
+            }
+            st.push(currDecode);
+        }
+        else{
+            string temp(1,ch);
+            st.push(temp);
+        }
+
+       }
+
+       //now all the final decoded string are in the stack
+       string ans ="";
+       while(!st.empty()){
+        ans += st.top();
+        st.pop();
+       }
+
+       //as its a stack we need to reverse the final ans toget the actual ans
+
+       reverse(ans.begin(),ans.end());
+       return ans;
+    }
+};
