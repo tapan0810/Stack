@@ -1,0 +1,36 @@
+You are given a list of integers called asteroids that represent asteroids aligned in a row. Each integer's value indicates the size and movement direction of an asteroid. A positive value means the asteroid moves to the right, while a negative value means it moves to the left. The magnitude of the integer represents the size of the asteroid.
+
+When two asteroids move towards each other, they may collide:
+
+A collision occurs between an asteroid moving to the right (+) and an asteroid moving to the left (-).
+During a collision, the smaller asteroid explodes.
+If both asteroids have the same size, they both explode.
+Asteroids moving in the same direction never collide.
+Your task is to determine and return the state of the asteroids after all possible collisions have occurred. Return the remaining asteroids in their original order.
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+class Solution {
+public:
+    vector<int> asteroidCollision(vector<int>& asteroids) {
+        vector<int> stack;
+        for (int asteroid : asteroids) {
+            bool exploded = false;
+            while (!stack.empty() && asteroid < 0 && stack.back() > 0) {
+                if (abs(asteroid) > stack.back()) {
+                    stack.pop_back();
+                } else if (abs(asteroid) == stack.back()) {
+                    stack.pop_back();
+                    exploded = true;
+                    break;
+                } else {
+                    exploded = true;
+                    break;
+                }
+            }
+            if (!exploded) {
+                stack.push_back(asteroid);
+            }
+        }
+        return stack;
+    }
+};
