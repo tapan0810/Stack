@@ -1,0 +1,30 @@
+Given the head of a singly linked list, the task is to find the next greater node for each node in the list. The "next greater node" is defined as the first node that appears after the current node, which has a greater value.
+
+The function should return a list of integers describing the next greater values for each node in the linked list. If there isn't a greater node that appears after a given node, the corresponding position in the result list should be 0.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+class Solution {
+public:
+    vector<int> nextLargerNodes(ListNode* head) {
+        vector<int> result;
+        vector<int> values;
+        ListNode* temp = head;
+        while (temp) {
+            values.push_back(temp->val);
+            temp = temp->next;
+        }
+
+        stack<int> st;
+        result.resize(values.size(), 0);
+        
+        for (int i = 0; i < values.size(); ++i) {
+            while (!st.empty() && values[st.top()] < values[i]) {
+                result[st.top()] = values[i];
+                st.pop();
+            }
+            st.push(i);
+        }
+        
+        return result;
+    }
+};
